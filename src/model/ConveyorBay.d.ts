@@ -8,6 +8,6 @@ export declare class ConveyorBay {
     private enable: boolean;
     private position: number;
     private datetime: Date;
-    constructor(id: string, capacity: number, load: number, enable: boolean, position: number);
+    constructor(id: string, capacity: number, load: number, enable: boolean, position: number, date:Date);
     addPreference(conveyorItemType: ConveyorItemType): void;
 }

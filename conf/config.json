@@ -1,0 +1,4 @@
+{
+    "cronExpressionItemScanner": "*/20 * * * * *",
+    "cronExpressionHealthBeat": "*/60 * * * * *"
+}
