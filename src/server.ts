@@ -258,7 +258,7 @@ async function getItemsByBay(json: string) {
       log.logger.debug('id=' + bays[j].id);
       log.logger.debug('capacity=' + bays[j].capacity);
       log.logger.debug('load=' + bays[j].load);
-      log.logger.debug('datetime=' + bays[j].datetime);
+      //log.logger.debug('datetime=' + bays[j].datetime);
     }
 
     
