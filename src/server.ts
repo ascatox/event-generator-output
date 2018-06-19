@@ -2,6 +2,7 @@
 const fabricConfig = require('../resources/config-fabric-network.json');
 const config = require('../conf/config.json');
 import * as bodyParser from 'body-parser';
+import * as log from "./Logger";
 import * as schedule from 'node-schedule';
 import * as async from 'async';
 import {logger} from './Logger';
@@ -34,7 +35,7 @@ app.use('/ledger', LedgerController);
 // Serve the application at the given port
 app.listen(port, () => {
   // Success callback
-  console.log(`Listening at http://localhost:${port}/`);
+  log.logger.debug(`Listening at http://localhost:${port}/`);
 });
 
 
@@ -116,14 +117,14 @@ function removeObjectFromArray(items, item) {
   for (var i = 0; i < items.length; i++) {
     if (items[i] === item) {
       items.splice(i, 1);
-      console.log('found and deleted');
+      log.logger.debug('found and deleted');
       return items;
     }
     if (items[i] instanceof Array){
       for (var j = 0; j < items.length; j++) {
         if (items[i][j] === item) {
           items[i].splice(j, 1);
-          console.log('found and deleted');
+          log.logger.debug('found and deleted');
           return items;
         }
       }
@@ -140,14 +141,14 @@ function cleanObjectFromArray(items, item) {
   for (var i = 0; i < items.length; i++) {
     if (items[i] === item) {
       items[i]=[];
-      console.log('found and deleted');
+      log.logger.debug('found and deleted');
       return items;
     }
     if (items[i] instanceof Array){
       for (var j = 0; j < items.length; j++) {
         if (items[i][j] === item) {
           items[i][j]=[];
-          console.log('found and deleted');
+          log.logger.debug('found and deleted');
           return items;
         }
       }
@@ -160,7 +161,7 @@ function cleanObjectFromArray(items, item) {
 
 
 async function editConveyorBay(json: string) {
-  console.log('***editConveyorBay***');
+  log.logger.debug('_________editConveyorBay_________');
   try {
     return await ledgerClient.doInvoke('editConveyorBay', [json]);
   } catch (err) {
@@ -169,7 +170,7 @@ async function editConveyorBay(json: string) {
 }
 
 async function editConveyorBay2(bay: ConveyorBay) {
-  console.log('***editConveyorBay***');
+  log.logger.debug('________editConveyorBay_________');
   try {
     return await ledgerClient.doInvoke('editConveyorBay', [bay]);
   } catch (err) {
@@ -179,7 +180,7 @@ async function editConveyorBay2(bay: ConveyorBay) {
 
 
 async function getBays() {
-  console.log('***getBays***');
+  log.logger.debug('________getBays_______');
   try {
     return await ledgerClient.doInvoke('getBays', []);
   } catch (err) {
@@ -188,7 +189,7 @@ async function getBays() {
 }
 
 async function conveyorItemIntoConveyorBay(item:ConveyorItem) {
-  console.log('***conveyorItemIntoConveyorBay***');
+  log.logger.debug('________conveyorItemIntoConveyorBay_______');
   try {
     return await ledgerClient.doInvoke('conveyorItemIntoConveyorBay', [JSON.stringify(item)]);
   } catch (err) {
@@ -198,7 +199,7 @@ async function conveyorItemIntoConveyorBay(item:ConveyorItem) {
 
 
 async function controlBays() {
-  console.log('***controlBays***');
+  log.logger.debug('________controlBays________');
   try {
     let bayOne = new ConveyorBay('1', 10, 5, true, 1, new Date());
     return await ledgerClient.doInvoke('controlBays', [JSON.stringify(bayOne)]);
@@ -226,7 +227,7 @@ function getBayByID(id) {
 }
 
 async function getItemsByBay(json: string) {
-  console.log('***getItemsByBay***' + json);
+  log.logger.debug('_______getItemsByBay________' + json);
   try {
     //return await generateFakeItem(json.match(/\d+/));
     return await ledgerClient.doInvoke('getItemsByBay', [""+json.match(/\d+/)]);
@@ -248,16 +249,16 @@ async function getItemsByBay(json: string) {
     ledgerClient = await LedgerClient.init(fabricConfig);
     bays = JSON.parse(await getBays());
     //console.log('bays=' + JSON.stringify(bays));
-    console.log('bays length=' + bays.length);
+    log.logger.debug('bays length=' + bays.length);
     bayIndex =
         Array.apply(null, {length: bays.length}).map(Number.call, Number);
     bayIndex = shuffle(bayIndex);
-    console.log('bayIndex=' + JSON.stringify(bayIndex));
+    log.logger.debug('bayIndex=' + JSON.stringify(bayIndex));
     for (var j = 0; j < bays.length; j++) {
-      console.log('id=' + bays[j].id);
-      console.log('capacity=' + bays[j].capacity);
-      console.log('load=' + bays[j].load);
-      console.log('datetime=' + bays[j].datetime);
+      log.logger.debug('id=' + bays[j].id);
+      log.logger.debug('capacity=' + bays[j].capacity);
+      log.logger.debug('load=' + bays[j].load);
+      log.logger.debug('datetime=' + bays[j].datetime);
     }
 
     
@@ -268,10 +269,10 @@ async function getItemsByBay(json: string) {
      // console.log("id="+bays[i].id);
       items[i] = JSON.parse(await getItemsByBay(JSON.stringify('' + bays[i].id)));
       //console.log(" items[i]="+JSON.stringify( items[i]));
-      console.log(" items.length="+items[i].length);
+      log.logger.debug(" items.length="+items[i].length);
 
       for (var j = 0; j < items[i].length; j++) {
-      console.log(
+        log.logger.debug(
           'items[' + j + '].id=' + items[i][j].id +
           ' bay.id=' + items[i][j].conveyorBay.id);
       totalItems.push(items[i][j]);
@@ -281,7 +282,7 @@ async function getItemsByBay(json: string) {
   ledger();
 
 
-  console.log('items length=' + items.length);
+  log.logger.debug('items length=' + items.length);
   // Index bays id list
 
   var j = schedule.scheduleJob(config.cronExpressionItemScanner, function() {
@@ -298,12 +299,12 @@ async function getItemsByBay(json: string) {
     (function theLoop(data, bayIndex, i) {
      
       setTimeout(function() {
-        console.log('processing bay ' + bayIndex[i - 1]+"...");
+        log.logger.debug('processing bay ' + bayIndex[i - 1]+"...");
         var foundItem = false;
         var itemFound:ConveyorItem;
         // Verify if bay contains item in its list
         if (contains(items[bayIndex[i - 1]], totalItems[n_item])) {
-          console.log('found in bay with '+bays[bayIndex[i - 1]].id);
+          log.logger.debug('found in bay with '+bays[bayIndex[i - 1]].id);
           foundItem = true;
           itemFound=totalItems[n_item];
           const conv = async () => {
@@ -318,7 +319,7 @@ async function getItemsByBay(json: string) {
 
           // Delete from bay list
           //console.log("PRE BAY LIST="+JSON.stringify([items]));
-          console.log("items da gestire="+totalItems.length);
+          log.logger.debug("items da gestire="+totalItems.length);
           items =
             removeObjectFromArray(items, itemFound);
           //console.log("POST BAY LIST="+JSON.stringify([items]));
@@ -338,14 +339,14 @@ async function getItemsByBay(json: string) {
       }, 2000);
     
     })(null, bayIndex, bays.length);
-    console.log('ITEM IN GESTIONE id=' + totalItems[n_item].id +" for bay.id="+totalItems[n_item].conveyorBay.id);
+    log.logger.debug('ITEM IN GESTIONE id=' + totalItems[n_item].id +" for bay.id="+totalItems[n_item].conveyorBay.id);
     
   })
 
  
   var j = schedule.scheduleJob(config.cronExpressionHealthBeat, function() {
     const healthbeat = async () => {
-    console.log('********* keep-alive *********');
+      log.logger.debug('********* keep-alive *********');
     var updatedItems: ConveyorItem[][] = [];
     var updatedTotalItems: ConveyorItem[] = [];
     // let bay = new ConveyorBay('1', 10, 5, true, 1, new Date());
@@ -363,17 +364,17 @@ async function getItemsByBay(json: string) {
        // console.log("id="+bays[i].id);
         updatedItems[i] = JSON.parse(await getItemsByBay(JSON.stringify('' + bays[i].id)));
         //console.log(" items[i]="+JSON.stringify( updatedItems[i]));
-        console.log("updatedItems.length="+updatedItems[i].length);
+        log.logger.debug("updatedItems.length="+updatedItems[i].length);
   
         for (var j = 0; j < updatedItems[i].length; j++) {
-        console.log(
+          log.logger.debug(
             'items[' + i + ']=' + updatedItems[i][j].id +
             ' bay.id=' + updatedItems[i][j].conveyorBay.id);
             updatedTotalItems.push(updatedItems[i][j]);
         }
       }
       if (updatedTotalItems.length>0){
-        console.log("replacing in memory items..."+updatedTotalItems.length+" new items")
+        log.logger.debug("replacing in memory items..."+updatedTotalItems.length+" new items")
         totalItems=updatedTotalItems;
         items=updatedItems;
       }
