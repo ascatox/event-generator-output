@@ -1,45 +1,46 @@
 {
   "name": "fabric-network",
-  "type": "hlfv1.1",
-  "channelName": "ledgerchannel",
-  "timeout": 5000,
-  "cryptoconfigdir": "/home/claudio/Scrivania/crypto-config",
-  "tls": false,
-  "chaincode": {
-    "path": "smart-conveyor-chaincode",
-    "name": "smart-conveyor-chaincode",
-    "version": "1.4",
-    "lang": "NODE"
-  },
-  "organizations": [
-    {
-      "domainName": "org1.example.com",
-      "mspID": "Org1MSP",
-      "peers": [
-        {
-          "name": "peer0.org1.example.com",
-          "requestURL": "grpc://localhost:7051",
-          "eventURL": "grpc://localhost:7053"
-        }
-      ],
-      "ca": {
-        "url": "http://localhost:7054",
-        "name": "ca.example.com"
-      },
-      "orderers": [
-        {
-          "name": "orderer.example.com",
-          "url": "grpc://localhost:7050"
-        }
-      ],
-      "users": [
-        {
-          "name": "Admin",
-          "roles": [
-            "admin"
-          ]
-        }
-      ]
-    }
-  ]
+    "type": "hlfv1.1",
+    "channelName": "ledgerchannel",
+    "timeout": 5000,
+    "cryptoconfigdir": "/Users/gabriele/Documents/crypto-config",
+    "tls": false,
+    "chaincode": {
+      "path": "smart-conveyor-chaincode",
+      "name": "smart-conveyor-chaincode",
+      "version": "1.7",
+      "lang": "NODE"
+    },
+    "organizations": [
+      {
+        "domainName": "org1.example.com",
+        "mspID": "Org1MSP",
+        "peers": [
+          {
+            "name": "peer0.org1.example.com",
+            "requestURL": "grpc://167.99.89.178:7051",
+            "eventURL": "grpc://167.99.89.178:7053"
+          }
+        ],
+        "ca": {
+          "url": "http://167.99.89.178:7054",
+          "name": "ca.example.com"
+        },
+        "orderers": [
+          {
+            "name": "orderer.example.com",
+            "url": "grpc://167.99.89.178:7050"
+          }
+        ],
+        "users": [
+          {
+            "name": "Admin",
+            "roles": [
+              "admin"
+            ]
+          }
+        ]
+      }
+    
+    ]
 }

@@ -1,4 +1,5 @@
 {
-    "cronExpressionItemScanner": "*/20 * * * * *",
-    "cronExpressionHealthBeat": "*/60 * * * * *"
+    "cronExpressionItemScanner": "*/10 * * * * *",
+    "cronExpressionHealthBeat": "0 * * * * *",
+    "cronExpressionItemOut": "40 * * * * *"
 }
