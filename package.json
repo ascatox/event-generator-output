@@ -1,10 +1,10 @@
 {
-  "name": "event-generator-input",
+  "name": "event-generator-output",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "./dist/server.js",
+    "start": "tsc && node ./dist/server.js",
     "build": "tsc",
     "dev": "tsc --watch & nodemon dist",
     "test": "tsc && mocha dist/**/*.spec.js",
