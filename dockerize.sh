@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t ascatox/event-generator-output .
+tsc && docker build -t ascatox/event-generator-output .
