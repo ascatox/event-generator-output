@@ -326,25 +326,23 @@ async function getItemsByBay(json: string) {
           itemFound=totalItems[n_item];
           const conv = async () => {
             await conveyorItemIntoConveyorBay(itemFound);
-          }
-          conv();
-          //console.log("PRE TOTAL LIST="+JSON.stringify(totalItems));
-          // Delete from complete list
+            
+            // Delete from complete list
           totalItems = removeObjectFromArray(totalItems, itemFound);
-          //console.log("POST TOTAL LIST="+JSON.stringify(totalItems));
-          if(itemFound != null)
+          
+          if(itemFound != null){
+            itemFound.state=ConveyorItem.State.InBay;
             processedItems.push(itemFound);
-
+          }
           // Delete from bay list
-          //console.log("PRE BAY LIST="+JSON.stringify([items]));
-          log.logger.debug("Item exit : "+totalItems.length);
+          log.logger.debug("Total items in belt : "+totalItems.length);
           items =
             removeObjectFromArray(items, itemFound);
-          //console.log("POST BAY LIST="+JSON.stringify([items]));
+          }
+          conv();
           
-          //console.log("cache items ="+JSON.stringify(items));
+         
         } else {
-          //console.log('not found');
         }
         if ((--i) && (!foundItem)&&(totalItems.length>0)) {   // If i > 0, keep going
           theLoop(data, bayIndex, i);  // Call the loop again
@@ -420,7 +418,7 @@ async function getItemsByBay(json: string) {
     
     const itemsOut = async () => {
       for (var i = 0; i < processedItems.length; i++) {   
-        log.logger.debug("Item with Id: "+processedItems[i].id+" going out...");
+        log.logger.debug("Item with Id: "+processedItems[i].id+" with status "+processedItems[i].state+" going out...");
         await itemOut(JSON.stringify(processedItems[i]));
         processedItems=removeObjectFromArray(processedItems,processedItems[i]);
       }
