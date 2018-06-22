@@ -332,7 +332,8 @@ async function getItemsByBay(json: string) {
           // Delete from complete list
           totalItems = removeObjectFromArray(totalItems, itemFound);
           //console.log("POST TOTAL LIST="+JSON.stringify(totalItems));
-          processedItems.push(itemFound);
+          if(itemFound != null)
+            processedItems.push(itemFound);
 
           // Delete from bay list
           //console.log("PRE BAY LIST="+JSON.stringify([items]));
