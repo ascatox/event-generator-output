@@ -112,7 +112,7 @@ function contains(items, item) {
 
 function removeObjectFromArray(items, item) {
   if ((items == null) || (item == null)) {
-    return null;
+    return items;
   }
   for (var i = 0; i < items.length; i++) {
     if (items[i] === item) {
@@ -136,7 +136,7 @@ function removeObjectFromArray(items, item) {
 
 function cleanObjectFromArray(items, item) {
   if ((items == null) || (item == null)) {
-    return null;
+    return items;
   }
   for (var i = 0; i < items.length; i++) {
     if (items[i] === item) {
