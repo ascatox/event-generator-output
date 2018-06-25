@@ -324,8 +324,6 @@ async function getItemsByBay(json: string) {
           itemFound = totalItems[n_item];
           const conv = async () => {
             await conveyorItemIntoConveyorBay(itemFound);
-<<<<<<< HEAD
-
             // Delete from complete list
             totalItems = removeObjectFromArray(totalItems, itemFound);
 
@@ -339,26 +337,6 @@ async function getItemsByBay(json: string) {
               removeObjectFromArray(items, itemFound);
           }
           conv();
-
-
-=======
-            
-            // Delete from complete list
-          totalItems = removeObjectFromArray(totalItems, itemFound);
-          
-          if(itemFound != null){
-            itemFound.state=ConveyorItem.State.InBay;
-            processedItems.push(itemFound);
-          }
-          // Delete from bay list
-          log.logger.debug("Total items in belt : "+totalItems.length);
-          items =
-            removeObjectFromArray(items, itemFound);
-          }
-          conv();
-          
-         
->>>>>>> 7949597c988c79077395505fd2afcbbdb1e19663
         } else {
         }
         if ((--i) && (!foundItem) && (totalItems.length > 0)) {   // If i > 0, keep going
